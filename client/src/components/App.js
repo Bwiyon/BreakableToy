@@ -7,6 +7,9 @@ import "../assets/scss/main.scss";
 import RegistrationForm from "./registration/RegistrationForm";
 import SignInForm from "./authentication/SignInForm";
 import TopBar from "./layout/TopBar";
+import Flights from "./Flights";
+import HomePage from "./HomePage";
+import About from "./About";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -23,11 +26,11 @@ const App = (props) => {
     <Router>
       <TopBar user={currentUser} />
       <Switch>
-        <Route exact path="/">
-          <h2>Hello from react</h2>
-        </Route>
+        <Route exact path="/" component={HomePage}></Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
+        <Route exact path="/flights" component={Flights} />
+        <Route exact path="/About" component={About} />
       </Switch>
     </Router>
   );

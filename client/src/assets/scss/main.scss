@@ -1,5 +1,6 @@
 @import "./foundation/settings";
 @import "~foundation-sites/scss/foundation";
+@import "~antd/dist/antd.css";
 @include foundation-everything;
 // place global css here
 *,
@@ -11,4 +12,124 @@
 :root {
   -moz-tab-size: 4;
   tab-size: 4;
+}
+
+.index {
+  background-image: url("../../pictures/flashpacker_logo.jpg");
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 93vh;
+  background-size: cover;
+  background-position: center center;
+}
+
+@media only screen and (max-width: 1200px) {
+  h3 {
+    font-size: 1.7rem;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  h3 {
+    font-size: 0.95rem;
+  }
+}
+
+@media only screen and (max-width: 650px) {
+  .index {
+    background-image: url("../../pictures/flashpacker_logoSmall.jpg");
+  }
+  h3 {
+    font-size: 0.7rem;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  h3 {
+    font-size: 0.6rem;
+  }
+}
+
+.aboutDiv {
+  background-image: url("../../pictures/about.jpg");
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 93vh;
+  overflow-y: hidden;
+  background-size: cover;
+}
+
+.top-bar,
+.top-bar ul {
+  background-color: #abc0c6;
+}
+
+.top-bar {
+  background-color: #abc0c6;
+  padding: 4px;
+}
+
+.button {
+  background-color: #be3c54;
+}
+
+.button:hover {
+  background-color: #f1c40f;
+}
+
+.top-bar-left .menu a {
+  padding: 0;
+}
+
+.top-bar-right .menu a {
+  color: white;
+  position: relative;
+  z-index: 1;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.15rem;
+}
+
+.menu a:hover {
+  color: white;
+}
+
+.menu a:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 100%;
+  height: 1px;
+  content: ".";
+  color: transparent;
+  background: #f1c40f;
+  visibility: none;
+  opacity: 0;
+  z-index: -1;
+}
+.menu a:hover:after {
+  opacity: 1;
+  visibility: visible;
+  height: 100%;
+}
+
+.menu .menu-text {
+  padding: 0%;
+}
+
+h3 {
+  height: 45vh;
+  color: #fff;
+  line-height: 50px;
+  text-align: center;
+  background-color: #364d79;
+  width: 70%;
+  opacity: 0.5;
+  margin: 115px auto;
+  font-family: "Philosopher", sans-serif;
 }
