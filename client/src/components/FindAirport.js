@@ -7,6 +7,8 @@ const FindAirport = (props) => {
   const [flight, setFlight] = useState({
     departure: "",
     depCountry: "",
+    arrival: "",
+    arrCountry: "",
   });
 
   const handleInputChange = (event) => {
@@ -16,17 +18,49 @@ const FindAirport = (props) => {
     });
   };
 
-  const handleSelectChange = (event) => {
-    debugger;
+  const handleSelectChangeDep = (event) => {
     setFlight({
       ...flight,
       depCountry: event,
     });
   };
 
+  const handleSelectChangeArr = (event) => {
+    setFlight({
+      ...flight,
+      arrCountry: event,
+    });
+  };
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    fetchAirport();
+  };
+
+  const fetchAirport = async () => {
+    try {
+      const response = await fetch("/api/v1/airports", {
+        method: "POST",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(flight),
+      });
+      if (!response.ok) {
+        const errorMessage = `${response.status} ${response.statusText}`;
+        const error = new Error(errorMessage);
+        throw error;
+      }
+      const parsedResponse = await response.json();
+      props.airportsSubmittedHandler(parsedResponse);
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
+  };
+
   const countriesMap = countriesList.map((country) => {
     return (
-      <Option key={country.Code} value={country.Code}>
+      <Option key={country.Code} value={country.Code} name={country.Name}>
         {country.Name}
       </Option>
     );
@@ -34,32 +68,68 @@ const FindAirport = (props) => {
 
   return (
     <div>
-      <label>
-        Country:
-        <Select
-          onChange={handleSelectChange}
-          showSearch
-          placeholder="Pick your Country"
-          optionFilterProp="children"
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-          filterSort={(optionA, optionB) =>
-            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-          }
-        >
-          {countriesMap}
-        </Select>
-      </label>
-      <label>
-        What city would you like to fly to?
-        <input
-          type="text"
-          name="departure"
-          onChange={handleInputChange}
-          value={flight.departure}
-        ></input>
-      </label>
+      <form onSubmit={handleOnSubmit}>
+        <label>
+          <span className="label">Departing Country:</span>
+          <Select
+            onChange={handleSelectChangeDep}
+            style={{ width: 190 }}
+            showSearch
+            placeholder="Pick your Country"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            filterSort={(optionA, optionB) =>
+              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+            }
+          >
+            {countriesMap}
+          </Select>
+        </label>
+        <label>
+          <span className="label"> Departing City</span>
+          <input
+            type="text"
+            name="departure"
+            onChange={handleInputChange}
+            value={flight.departure}
+          ></input>
+        </label>
+
+        <label>
+          <span className="label">Arriving Country:</span>
+          <Select
+            onChange={handleSelectChangeArr}
+            style={{ width: 190 }}
+            showSearch
+            placeholder="Pick your Country"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            filterSort={(optionA, optionB) =>
+              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+            }
+          >
+            {countriesMap}
+          </Select>
+        </label>
+
+        <label>
+          <span className="label"> Arrival City</span>
+          <input
+            type="text"
+            name="arrival"
+            onChange={handleInputChange}
+            value={flight.arrival}
+          ></input>
+        </label>
+
+        <div>
+          <input className="Button" type="submit" value="submit"></input>
+        </div>
+      </form>
     </div>
   );
 };
