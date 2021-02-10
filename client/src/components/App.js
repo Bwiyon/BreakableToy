@@ -10,6 +10,7 @@ import TopBar from "./layout/TopBar";
 import Flights from "./Flights";
 import HomePage from "./HomePage";
 import About from "./About";
+import Browsing from "./Browsing";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -30,7 +31,8 @@ const App = (props) => {
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
         <Route exact path="/flights" component={Flights} />
-        <Route exact path="/About" component={About} />
+        <Route exact path="/about" component={About} />
+        <Route exact pathe="/browsing" component={Browsing} />
       </Switch>
     </Router>
   );

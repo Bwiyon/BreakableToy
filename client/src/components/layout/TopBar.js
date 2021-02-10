@@ -38,7 +38,7 @@ const TopBar = ({ user }) => {
             <Link to="/flights">Search Flights</Link>
           </li>
           <li>
-            <Link to="/">Flight Browsing</Link>
+            <Link to="/browsing">Flight Browsing</Link>
           </li>
           <li>
             <Link to="/about">About</Link>
