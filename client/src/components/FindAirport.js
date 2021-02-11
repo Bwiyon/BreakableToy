@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import countriesList from "../Data/countriesList.js";
-import { Select } from "antd";
+import { Select, Spin } from "antd";
 const { Option } = Select;
 
 const FindAirport = (props) => {
@@ -10,6 +10,8 @@ const FindAirport = (props) => {
     arrival: "",
     arrCountry: "",
   });
+
+  const [spin, setSpin] = useState(false);
 
   const handleInputChange = (event) => {
     setFlight({
@@ -34,6 +36,7 @@ const FindAirport = (props) => {
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
+    setSpin(true);
     fetchAirport();
   };
 
@@ -53,6 +56,7 @@ const FindAirport = (props) => {
       }
       const parsedResponse = await response.json();
       props.airportsSubmittedHandler(parsedResponse);
+      setSpin(false);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
@@ -127,7 +131,8 @@ const FindAirport = (props) => {
         </label>
 
         <div>
-          <input className="Button" type="submit" value="submit"></input>
+          {spin === true ? <Spin></Spin> : <span></span>}
+          <input className="Button secondary" type="submit" value="submit"></input>
         </div>
       </form>
     </div>
