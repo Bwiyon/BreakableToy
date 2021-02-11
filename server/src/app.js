@@ -41,5 +41,3 @@ app.listen(configuration.web.port, configuration.web.host, () => {
   console.log("Server is listening...");
 });
 export default app;
-console.log("NICK IS A GOD!!!!");
-console.log(process.env.SECRET_KEY);

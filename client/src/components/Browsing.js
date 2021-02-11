@@ -34,6 +34,10 @@ const Browsing = (props) => {
     setNextForm(true);
   };
 
+  const flightsSubmittedHandler = (newFlights) => {
+    onClose();
+  };
+
   const dontMoveForwardButton = [
     <Button key="notReady" type="primary" disabled>
       next page
@@ -61,13 +65,13 @@ const Browsing = (props) => {
         <FindAirport airportsSubmittedHandler={airportsSubmittedHandler} />
         {nextForm ? moveForwardButton : dontMoveForwardButton}
         <Drawer
-          title="Two-level Drawer"
+          title="Select your airports and dates"
           width={420}
           closable={false}
           onClose={onChildrenDrawerClose}
           visible={drawer.childrenDrawer}
         >
-          <FindFlights airports={airports} />
+          <FindFlights airports={airports} flightsSubmittedHandler={flightsSubmittedHandler} />
         </Drawer>
       </Drawer>
     </div>

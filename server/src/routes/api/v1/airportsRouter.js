@@ -11,7 +11,7 @@ airportsRouter.post("/", async (req, res) => {
       {
         method: "GET",
         headers: {
-          "x-rapidapi-key": "c16e95a2fcmshcff20cafb4af940p11f1cfjsn1277aac58947",
+          "x-rapidapi-key": `${process.env.SECRET_KEY}`,
           "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         },
       }
@@ -21,7 +21,7 @@ airportsRouter.post("/", async (req, res) => {
       {
         method: "GET",
         headers: {
-          "x-rapidapi-key": "c16e95a2fcmshcff20cafb4af940p11f1cfjsn1277aac58947",
+          "x-rapidapi-key": `${process.env.SECRET_KEY}`,
           "x-rapidapi-host": "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
         },
       }
