@@ -55,7 +55,11 @@ const FindAirport = (props) => {
         throw error;
       }
       const parsedResponse = await response.json();
-      props.airportsSubmittedHandler(parsedResponse);
+      props.airportsSubmittedHandler({
+        ...parsedResponse,
+        depCountry: flight.depCountry,
+        arrCountry: flight.arrCountry,
+      });
       setSpin(false);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);

@@ -7,6 +7,8 @@ const FindFlights = (props) => {
     date: "",
     depAirport: "",
     arrAirport: "",
+    depAirportName: "",
+    arrAirportName: "",
   });
 
   const [spin, setSpin] = useState(false);
@@ -36,16 +38,30 @@ const FindFlights = (props) => {
   }
 
   const handleSelectChangeDep = (event) => {
+    let depAirportName;
+    for (let dep of props.airports.airportsDep) {
+      if (event === dep.PlaceId) {
+        depAirportName = dep.PlaceName;
+      }
+    }
     setFlights({
       ...flights,
       depAirport: event,
+      depAirportName,
     });
   };
 
   const handleSelectChangeArr = (event) => {
+    let arrAirportName;
+    for (let arr of props.airports.airportsArr) {
+      if (event === arr.PlaceId) {
+        arrAirportName = arr.PlaceName;
+      }
+    }
     setFlights({
       ...flights,
       arrAirport: event,
+      arrAirportName,
     });
   };
 
@@ -70,7 +86,8 @@ const FindFlights = (props) => {
         throw error;
       }
       const parsedResponse = await response.json();
-      props.flightsSubmittedHandler(parsedResponse);
+      const { Carriers, Quotes } = parsedResponse;
+      props.flightsSubmittedHandler({ ...flights, Quotes, Carriers });
       setSpin(false);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
