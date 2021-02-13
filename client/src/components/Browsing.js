@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Drawer, Button, Table, Tag, Radio, Divider } from "antd";
+import { Drawer, Button, Table, Tag } from "antd";
 import FindAirport from "./FindAirport";
 import FindFlights from "./FindFlights";
 
@@ -36,15 +36,14 @@ const Browsing = (props) => {
 
   const airportsSubmittedHandler = (newAirports) => {
     setAirports(newAirports);
-    debugger;
     setNextForm(true);
   };
 
-  const flightsSubmittedHandler = (newFlights) => {
+  const flightsSubmittedHandler = async (newFlights) => {
     const { arrAirport, depAirportName, arrAirportName, depAirport } = newFlights;
     const { arrCountry, depCountry } = airports;
-    setDrawer({ ...drawer, childrenDrawer: false });
-    setDrawer({ ...drawer, visible: false });
+    await setDrawer({ ...drawer, childrenDrawer: false });
+    await setDrawer({ ...drawer, visible: false });
     const flightResults = newFlights.Quotes.map((flights) => {
       const { QuoteId, MinPrice, Direct, OutboundLeg } = flights;
       const { DepartureDate } = OutboundLeg;
@@ -72,13 +71,19 @@ const Browsing = (props) => {
   };
 
   const dontMoveForwardButton = [
-    <Button key="notReady" type="primary" disabled>
+    <Button className="buttonbottom" key="notReady" type="primary" size="large" disabled>
       next page
     </Button>,
   ];
 
   const moveForwardButton = [
-    <Button key="ready" type="primary" onClick={showChildrenDrawer}>
+    <Button
+      className="buttonbottom"
+      key="ready"
+      type="primary"
+      size="large"
+      onClick={showChildrenDrawer}
+    >
       next page
     </Button>,
   ];
@@ -131,9 +136,18 @@ const Browsing = (props) => {
 
   return (
     <div>
-      <Button type="primary" onClick={showDrawer}>
-        Start Browsing
-      </Button>
+      <div className="showPageImage">
+        <h1>Oh, the Places You'll Go</h1>
+        <h2>-Dr. Seuss</h2>
+        <button className="btn draw-border" onClick={showDrawer}>
+          Start Browsing
+        </button>
+      </div>
+
+      <div>
+        <h1 className="SearchResults"> Search Results</h1>
+      </div>
+
       <Drawer
         title="Where do you want to go?"
         width={320}

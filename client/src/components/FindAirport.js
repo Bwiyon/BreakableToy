@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import countriesList from "../Data/countriesList.js";
-import { Select, Spin } from "antd";
+import { Select, Spin, Alert } from "antd";
 const { Option } = Select;
 
 const FindAirport = (props) => {
@@ -134,10 +134,16 @@ const FindAirport = (props) => {
           ></input>
         </label>
 
-        <div>
-          {spin === true ? <Spin></Spin> : <span></span>}
-          <input className="Button secondary" type="submit" value="submit"></input>
+        <div className="spinForm">
+          <input className="button secondary" type="submit" value="submit"></input>
         </div>
+        {spin === true ? (
+          <Spin className="spin" tip="Loading...">
+            <Alert message="Finding Airports"></Alert>
+          </Spin>
+        ) : (
+          <span></span>
+        )}
       </form>
     </div>
   );
