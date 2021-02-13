@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, DatePicker, Space, Spin } from "antd";
+import { Select, DatePicker, Space, Spin, Alert } from "antd";
 import moment from "moment";
 
 const FindFlights = (props) => {
@@ -95,52 +95,62 @@ const FindFlights = (props) => {
   };
 
   return (
-    <div>
+    <div className="findFlights">
       <form onSubmit={handleOnSubmit}>
-        <label>
-          <span className="label">Departing airport:</span>
-          <Select
-            onChange={handleSelectChangeDep}
-            style={{ width: 190 }}
-            showSearch
-            placeholder="Pick your airport"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            filterSort={(optionA, optionB) =>
-              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-            }
-          >
-            {depAirport}
-          </Select>
-        </label>
+        <Space direction="vertical" size="large">
+          <label>
+            <span className="label">Departing airport:</span>
+            <br></br>
+            <Select
+              onChange={handleSelectChangeDep}
+              style={{ width: 190 }}
+              showSearch
+              placeholder="Pick your airport"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              filterSort={(optionA, optionB) =>
+                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+              }
+            >
+              {depAirport}
+            </Select>
+          </label>
 
-        <label>
-          <span className="label">Arriving airport:</span>
-          <Select
-            onChange={handleSelectChangeArr}
-            style={{ width: 190 }}
-            showSearch
-            placeholder="Pick your airport"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            filterSort={(optionA, optionB) =>
-              optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-            }
-          >
-            {arrAirport}
-          </Select>
-        </label>
-        <Space direction="vertical">
+          <label>
+            <span className="label">Arriving airport:</span>
+            <br></br>
+            <Select
+              onChange={handleSelectChangeArr}
+              style={{ width: 190 }}
+              showSearch
+              placeholder="Pick your airport"
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+              filterSort={(optionA, optionB) =>
+                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+              }
+            >
+              {arrAirport}
+            </Select>
+          </label>
+
           <DatePicker onChange={onDateChange} picker="month" disabledDate={disabledDate} />
+
+          <div>
+            <input className="button primary" type="submit" value="submit"></input>
+          </div>
+          {spin === true ? (
+            <Spin>
+              <Alert message="Finding Flights"></Alert>
+            </Spin>
+          ) : (
+            <span></span>
+          )}
         </Space>
-        <div>
-          {spin === true ? <Spin></Spin> : <span></span>}
-          <input className="Button" type="submit" value="submit"></input>
-        </div>
       </form>
     </div>
   );
