@@ -14,6 +14,10 @@
   tab-size: 4;
 }
 
+body {
+  background-image: url("../../pictures/circles-light.png");
+}
+
 .index {
   background-image: url("../../pictures/flashpacker_logo.jpg");
   background-repeat: no-repeat;
@@ -142,6 +146,7 @@ h3 {
   color: white;
   justify-content: center;
   flex-direction: column;
+  border-radius: 0 0 85% 85% / 30%;
 }
 
 .showPageImage h1 {
