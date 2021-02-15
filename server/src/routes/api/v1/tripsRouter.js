@@ -6,10 +6,8 @@ const tripsRouter = new express.Router();
 
 tripsRouter.get("/", async (req, res) => {
   const ID = req.user.id;
-  debugger;
   try {
     const rawTrip = await Trip.query().where({ userID: ID });
-    debugger;
     return res.status(200).json({ rawTrip });
   } catch (error) {
     return res.status(500).json({ errors: error });
