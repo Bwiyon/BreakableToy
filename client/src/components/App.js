@@ -11,6 +11,8 @@ import Flights from "./Flights";
 import HomePage from "./HomePage";
 import About from "./About";
 import Browsing from "./Browsing";
+import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
+import UserProfile from "./UserProfile";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -30,9 +32,9 @@ const App = (props) => {
         <Route exact path="/" component={HomePage}></Route>
         <Route exact path="/users/new" component={RegistrationForm} />
         <Route exact path="/user-sessions/new" component={SignInForm} />
-        <Route exact path="/flights" component={Flights} />
         <Route exact path="/about" component={About} />
-        <Route exact pathe="/browsing" component={Browsing} />
+        <Route exact path="/browsing" component={Browsing} />
+        <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
       </Switch>
     </Router>
   );

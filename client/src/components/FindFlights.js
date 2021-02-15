@@ -86,8 +86,8 @@ const FindFlights = (props) => {
         throw error;
       }
       const parsedResponse = await response.json();
-      const { Carriers, Quotes } = parsedResponse;
-      props.flightsSubmittedHandler({ ...flights, Quotes, Carriers });
+      const { Carriers, Quotes, currentUserId } = parsedResponse;
+      props.flightsSubmittedHandler({ ...flights, Quotes, Carriers, currentUserId });
       setSpin(false);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
