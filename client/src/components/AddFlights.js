@@ -97,6 +97,7 @@ const AddFlights = (props) => {
   };
 
   const postSavedTrips = async () => {
+    tripID === undefined ? (tripID = selectTripID) : (tripID = tripID);
     const savedTripsData = flightID.map((id) => {
       return { flightID: id.id, departure: false, arrival: false, tripID };
     });
