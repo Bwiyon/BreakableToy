@@ -16,6 +16,9 @@ const TopBar = ({ user }) => {
   ];
 
   const authenticatedListItems = [
+    <li key="account">
+      <Link to="/Profile">My Account</Link>
+    </li>,
     <li key="sign-out">
       <SignOutButton />
     </li>,
@@ -34,9 +37,6 @@ const TopBar = ({ user }) => {
       </div>
       <div className="top-bar-right">
         <ul className="menu">
-          <li>
-            <Link to="/flights">Search Flights</Link>
-          </li>
           <li>
             <Link to="/browsing">Flight Browsing</Link>
           </li>

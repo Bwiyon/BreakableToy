@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Drawer, Button, Table, Tag } from "antd";
+import { Drawer, Button, Table, Tag, notification, Modal } from "antd";
 import FindAirport from "./FindAirport";
 import FindFlights from "./FindFlights";
+import AddFlights from "./AddFlights";
 
 const Browsing = (props) => {
   const [totalFlights, setTotalFlights] = useState([]);
@@ -11,6 +12,14 @@ const Browsing = (props) => {
   const [airports, setAirports] = useState({ airportsDep: [], airportsArr: [] });
 
   const [nextForm, setNextForm] = useState(false);
+
+  const [user, setUser] = useState("");
+
+  const [pickedFlights, setPickedFlights] = useState([]);
+
+  const [addFlights, setAddFlights] = useState(false);
+
+  const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
     setDrawer({
@@ -40,7 +49,7 @@ const Browsing = (props) => {
   };
 
   const flightsSubmittedHandler = async (newFlights) => {
-    const { arrAirport, depAirportName, arrAirportName, depAirport } = newFlights;
+    const { arrAirport, depAirportName, arrAirportName, depAirport, currentUserId } = newFlights;
     const { arrCountry, depCountry } = airports;
     await setDrawer({ ...drawer, childrenDrawer: false });
     await setDrawer({ ...drawer, visible: false });
@@ -68,11 +77,12 @@ const Browsing = (props) => {
       };
     });
     setTotalFlights(flightResults);
+    setUser(currentUserId);
   };
 
   const dontMoveForwardButton = [
     <Button className="buttonbottom" key="notReady" type="primary" size="large" disabled>
-      next page
+      next
     </Button>,
   ];
 
@@ -86,6 +96,45 @@ const Browsing = (props) => {
     >
       next page
     </Button>,
+  ];
+
+  const noneSelectedNotification = (placement) => {
+    notification.error({
+      message: "Please select a trip to save",
+      description:
+        "You are trying to save a trip that isn't selected. Please go back and select the trips you wish to save.",
+      placement,
+    });
+  };
+
+  const userLogin = (placement) => {
+    notification.warning({
+      message: "You need to login to use this feature",
+      description: `Please use the login below above to be able to save a trip to your account. `,
+      placement,
+    });
+  };
+
+  const handleAcceptFlight = (event) => {
+    event.preventDefault();
+    if (user === "") {
+      userLogin("bottomRight");
+    } else if (pickedFlights.length === 0) {
+      setAddFlights(false);
+      noneSelectedNotification("bottomLeft");
+    } else {
+      setVisible(true);
+    }
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const acceptFlightButton = [
+    <button key="btn1" className="btn1" onClick={handleAcceptFlight}>
+      Save Flights
+    </button>,
   ];
 
   const columns = [
@@ -124,9 +173,15 @@ const Browsing = (props) => {
     },
   ];
 
+  const selectFlightsAndAddFlights = async (selectedRows) => {
+    await setPickedFlights(selectedRows);
+    await setAddFlights(true);
+  };
+
   const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
+    onChange: async (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
+      selectFlightsAndAddFlights(selectedRows);
     },
     getCheckboxProps: (record) => ({
       disabled: record.name === "Disabled User",
@@ -167,14 +222,31 @@ const Browsing = (props) => {
           <FindFlights airports={airports} flightsSubmittedHandler={flightsSubmittedHandler} />
         </Drawer>
       </Drawer>
-      <div>
+      <div className="buttonBottomBrowsing">
         <Table
           columns={columns}
           dataSource={totalFlights}
           rowKey={(totalFlights) => totalFlights.QuoteId}
           rowSelection={rowSelection}
         />
+        <div className="buttonBottomBrowsing">
+          {addFlights ? acceptFlightButton : dontMoveForwardButton}
+        </div>
       </div>
+      <Modal
+        title="Save your trips"
+        centered
+        visible={visible}
+        width={500}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" danger onClick={handleCancel}>
+            Cancel
+          </Button>,
+        ]}
+      >
+        <AddFlights pickedFlights={pickedFlights} user={user} />
+      </Modal>
     </div>
   );
 };

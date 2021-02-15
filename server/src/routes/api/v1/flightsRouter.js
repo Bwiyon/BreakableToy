@@ -4,6 +4,10 @@ import fetch from "node-fetch";
 const flightsRouter = new express.Router();
 
 flightsRouter.post("/", async (req, res) => {
+  let currentUserId = "";
+  if (req.user) {
+    currentUserId = req.user.id;
+  }
   const { date, depAirport, arrAirport } = req.body;
   try {
     const response = await fetch(
@@ -18,7 +22,7 @@ flightsRouter.post("/", async (req, res) => {
     );
     const flightResults = await response.json();
     const { Carriers, Quotes } = flightResults;
-    return res.status(200).json({ Carriers, Quotes });
+    return res.status(200).json({ Carriers, Quotes, currentUserId });
   } catch (error) {
     return res.status(500).json({ errors: error });
   }
