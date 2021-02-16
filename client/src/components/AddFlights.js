@@ -137,7 +137,7 @@ const AddFlights = (props) => {
       <div>
         <form className="tripsFormDiv" onSubmit={handleOnSubmit}>
           <label>
-            <span className="label">Name of trip</span>
+            <span className="label base">Name of trip</span>
             <input type="text" name="name" onChange={handleInputChange}></input>
           </label>
           <button className="button primary hollow" type="submit">
@@ -151,7 +151,7 @@ const AddFlights = (props) => {
         <form onSubmit={handleSelectSubmit}>
           <Space direction="vertical" size="large">
             <label>
-              <span className="label"> Saved trips</span>
+              <span className="label base"> Saved trips</span>
               <br></br>
               <Select
                 onChange={handleSelectChange}

@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Card, Popconfirm } from "antd";
+import { Card, Popconfirm, Modal } from "antd";
 import { Link } from "react-router-dom";
+import EditTrip from "./EditTrip";
 
 const UserProfile = (props) => {
   const [trips, setTrips] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [tripId, setTripId] = useState("");
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
 
   const fetchTrips = async () => {
     try {
@@ -24,11 +31,71 @@ const UserProfile = (props) => {
   }, []);
 
   const confirm = (id) => {
-    console.log(id);
+    setTripId(id);
+    deleteTrip(id);
   };
 
   const edit = (id) => {
-    console.log(id);
+    setTripId(id);
+    setVisible(true);
+  };
+
+  const handleEditSubmit = (formPayLoad) => {
+    editTrips(formPayLoad);
+  };
+
+  const deleteTrip = async (id) => {
+    try {
+      const savedTripsResponse = await fetch("/api/v1/savedFlights", {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ id }),
+      });
+      const parsedResponse = await savedTripsResponse.json();
+      const flightResponse = await fetch("/api/v1/storeFlights", {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ info: parsedResponse.trip }),
+      });
+      const response = await fetch("/api/v1/trips", {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ id }),
+      });
+      if (!response.ok) {
+        const errorMessage = `${response.status} ${response.statusText}`;
+        const error = new Error(errorMessage);
+        throw error;
+      }
+      fetchTrips();
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
+  };
+
+  const editTrips = async (formPayLoad) => {
+    try {
+      const response = await fetch(`/api/v1/trips/${tripId}`, {
+        method: "PATCH",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(formPayLoad),
+      });
+      if (!response.ok) {
+        const errorMessage = `${response.status} ${response.statusText}`;
+        const error = new Error(errorMessage);
+        throw error;
+      }
+    } catch (error) {
+      console.error(`Error in fetch: ${error.message}`);
+    }
   };
 
   const tripTiles = trips.map((trip) => {
@@ -80,13 +147,23 @@ const UserProfile = (props) => {
       <div className="userProfileDiv">
         <img src="https://images.unsplash.com/photo-1468078809804-4c7b3e60a478?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80" />
         <div className="center">
-          <h1>“A journey is best measured in friends, rather than miles.” </h1>
+          <h2>“A journey is best measured in friends, rather than miles.” </h2>
         </div>
         <div className="top-left">
-          <h2>My Account</h2>
+          <h1>My Account</h1>
         </div>
       </div>
       <div className="tripTiles">{tripTiles}</div>
+      <Modal
+        title="Change your trip name"
+        centered
+        visible={visible}
+        width={300}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <EditTrip handleEditSubmit={handleEditSubmit}></EditTrip>
+      </Modal>
     </div>
   );
 };

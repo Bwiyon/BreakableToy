@@ -99,7 +99,7 @@ const FindFlights = (props) => {
       <form onSubmit={handleOnSubmit}>
         <Space direction="vertical" size="large">
           <label>
-            <span className="label">Departing airport:</span>
+            <span className="label base">Departing airport:</span>
             <br></br>
             <Select
               onChange={handleSelectChangeDep}
@@ -119,7 +119,7 @@ const FindFlights = (props) => {
           </label>
 
           <label>
-            <span className="label">Arriving airport:</span>
+            <span className="label base">Arriving airport:</span>
             <br></br>
             <Select
               onChange={handleSelectChangeArr}

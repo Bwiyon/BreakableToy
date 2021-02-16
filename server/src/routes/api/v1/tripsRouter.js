@@ -27,4 +27,28 @@ tripsRouter.post("/", async (req, res) => {
   }
 });
 
+tripsRouter.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+  try {
+    const updatedTrip = await Trip.query().updateAndFetchById(parseInt(id), body);
+    return res.status(200).json({ trip: updatedTrip });
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      return res.status(422).json({ errors: error.data });
+    }
+    return res.status(500).json({ errors: error });
+  }
+});
+
+tripsRouter.delete("/", async (req, res) => {
+  const id = parseInt(req.body.id);
+  try {
+    const removed = await Trip.query().deleteById(id);
+    return res.status(204).json({ message: "The trip has been deleted!" });
+  } catch (error) {
+    return res.status(500).json({ errors: error });
+  }
+});
+
 export default tripsRouter;
