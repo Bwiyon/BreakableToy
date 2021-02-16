@@ -13,6 +13,7 @@ import About from "./About";
 import Browsing from "./Browsing";
 import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
 import UserProfile from "./UserProfile";
+import ProfileShow from "./ProfileShow";
 
 const App = (props) => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -35,6 +36,7 @@ const App = (props) => {
         <Route exact path="/about" component={About} />
         <Route exact path="/browsing" component={Browsing} />
         <AuthenticatedRoute exact path="/profile" component={UserProfile} user={currentUser} />
+        <AuthenticatedRoute exact path="/profile/:id" component={ProfileShow} user={currentUser} />
       </Switch>
     </Router>
   );

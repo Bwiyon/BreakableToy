@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col } from "antd";
-const { Meta } = Card;
+import { Card, Popconfirm } from "antd";
+import { Link } from "react-router-dom";
 
 const UserProfile = (props) => {
   const [trips, setTrips] = useState([]);
@@ -23,6 +23,14 @@ const UserProfile = (props) => {
     fetchTrips();
   }, []);
 
+  const confirm = (id) => {
+    console.log(id);
+  };
+
+  const edit = (id) => {
+    console.log(id);
+  };
+
   const tripTiles = trips.map((trip) => {
     return (
       <div key={trip.id}>
@@ -36,7 +44,30 @@ const UserProfile = (props) => {
               src="https://images.pexels.com/photos/1058959/pexels-photo-1058959.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
             />
           }
-          actions={[<button>Edit</button>, <button>Delete</button>]}
+          actions={[
+            <button>
+              <Link to={`/profile/${trip.id}`}>view</Link>
+            </button>,
+            <button
+              onClick={() => {
+                edit(trip.id);
+              }}
+            >
+              Edit
+            </button>,
+            <button>
+              <Popconfirm
+                title="Are you sure to delete this task?"
+                onConfirm={() => {
+                  confirm(trip.id);
+                }}
+                okText="Yes"
+                cancelText="No"
+              >
+                Delete
+              </Popconfirm>
+            </button>,
+          ]}
         >
           {trip.name}
         </Card>
