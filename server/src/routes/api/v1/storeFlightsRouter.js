@@ -17,4 +17,15 @@ storeFlightsRouter.post("/", async (req, res) => {
   }
 });
 
+storeFlightsRouter.delete("/", async (req, res) => {
+  const body = req.body.info;
+  try {
+    for (let id of body) {
+      await Flight.query().deleteById(parseInt(id.flightID));
+    }
+    return res.status(200).json({ body });
+  } catch (error) {
+    return res.status(500).json({ errors: error });
+  }
+});
 export default storeFlightsRouter;

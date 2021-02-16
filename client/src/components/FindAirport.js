@@ -78,7 +78,7 @@ const FindAirport = (props) => {
     <div>
       <form onSubmit={handleOnSubmit}>
         <label>
-          <span className="label">Departing Country:</span>
+          <span className="label base">Departing Country:</span>
           <Select
             onChange={handleSelectChangeDep}
             style={{ width: 190 }}
@@ -96,7 +96,7 @@ const FindAirport = (props) => {
           </Select>
         </label>
         <label>
-          <span className="label"> Departing City</span>
+          <span className="label base"> Departing City</span>
           <input
             type="text"
             name="departure"
@@ -106,7 +106,7 @@ const FindAirport = (props) => {
         </label>
 
         <label>
-          <span className="label">Arriving Country:</span>
+          <span className="label base">Arriving Country:</span>
           <Select
             onChange={handleSelectChangeArr}
             style={{ width: 190 }}
@@ -125,7 +125,7 @@ const FindAirport = (props) => {
         </label>
 
         <label>
-          <span className="label"> Arrival City</span>
+          <span className="label base round"> Arrival City</span>
           <input
             type="text"
             name="arrival"

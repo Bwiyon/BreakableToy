@@ -17,4 +17,15 @@ savedFlightsRouter.post("/", async (req, res) => {
   }
 });
 
+savedFlightsRouter.delete("/", async (req, res) => {
+  const id = req.body.id;
+
+  try {
+    const gatherFlightId = await SavedFlight.query().where({ tripID: id });
+    const savedTrip = await SavedFlight.query().delete().where({ tripID: id });
+    return res.status(201).json({ trip: gatherFlightId });
+  } catch (error) {
+    return res.status(500).json({ errors: error });
+  }
+});
 export default savedFlightsRouter;

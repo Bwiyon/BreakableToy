@@ -180,7 +180,6 @@ const Browsing = (props) => {
 
   const rowSelection = {
     onChange: async (selectedRowKeys, selectedRows) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, "selectedRows: ", selectedRows);
       selectFlightsAndAddFlights(selectedRows);
     },
     getCheckboxProps: (record) => ({
