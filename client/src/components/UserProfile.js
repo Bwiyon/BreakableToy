@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Card, Popconfirm, Modal } from "antd";
+import { Card, Popconfirm, Modal, message } from "antd";
 import { Link } from "react-router-dom";
 import EditTrip from "./EditTrip";
+import friends from "../pictures/friends.jpg";
+
+import { DeleteTwoTone, EditTwoTone, CalendarTwoTone } from "@ant-design/icons";
 
 const UserProfile = (props) => {
   const [trips, setTrips] = useState([]);
@@ -98,6 +101,10 @@ const UserProfile = (props) => {
     }
   };
 
+  const success = () => {
+    message.success("Trip was deleted");
+  };
+
   const tripTiles = trips.map((trip) => {
     return (
       <div key={trip.id}>
@@ -113,25 +120,28 @@ const UserProfile = (props) => {
           }
           actions={[
             <button>
-              <Link to={`/profile/${trip.id}`}>view</Link>
+              <Link to={{ pathname: `/profile/${trip.id}`, props: { tripID: trip.id } }}>
+                <CalendarTwoTone />
+              </Link>
             </button>,
             <button
               onClick={() => {
                 edit(trip.id);
               }}
             >
-              Edit
+              <EditTwoTone twoToneColor="#52c41a" />
             </button>,
             <button>
               <Popconfirm
                 title="Are you sure to delete this task?"
                 onConfirm={() => {
                   confirm(trip.id);
+                  success();
                 }}
                 okText="Yes"
                 cancelText="No"
               >
-                Delete
+                <DeleteTwoTone twoToneColor="#eb2f96" />
               </Popconfirm>
             </button>,
           ]}
@@ -145,7 +155,7 @@ const UserProfile = (props) => {
   return (
     <div className="userProfileBackground">
       <div className="userProfileDiv">
-        <img src="https://images.unsplash.com/photo-1468078809804-4c7b3e60a478?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80" />
+        <img src={friends} />
         <div className="center">
           <h2>“A journey is best measured in friends, rather than miles.” </h2>
         </div>

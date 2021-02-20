@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Select, Space } from "antd";
+import { Select, Space, message } from "antd";
 const { Option } = Select;
 import { Redirect } from "react-router-dom";
 
@@ -43,8 +43,16 @@ const AddFlights = (props) => {
     setTripName({ [event.target.name]: event.target.value });
   };
 
+  const success = () => {
+    message
+      .loading("Saving Flight..", 1.0)
+      .then(() => message.success("Flight Saved", 1))
+      .then(() => message.info("Continue Searching or go to Account", 3.5));
+  };
+
   const handleOnSubmit = async (event) => {
     event.preventDefault();
+    success();
     await postTrips();
     await postFlights();
     await postSavedTrips();
@@ -115,7 +123,7 @@ const AddFlights = (props) => {
         throw error;
       }
       const parsedResponse = await response.json();
-      setShouldRedirect(true);
+      // setShouldRedirect(true);
     } catch (error) {
       console.error(`Error in fetch: ${error.message}`);
     }
@@ -129,6 +137,7 @@ const AddFlights = (props) => {
     event.preventDefault();
     await postFlights();
     await postSavedTrips();
+    setShouldRedirect(true);
   };
 
   return (
