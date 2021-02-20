@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Drawer, Button, Table, Tag, notification, Modal } from "antd";
+import { Drawer, Button, Table, Tag, notification, Modal, Divider } from "antd";
 import FindAirport from "./FindAirport";
 import FindFlights from "./FindFlights";
 import AddFlights from "./AddFlights";
@@ -199,7 +199,9 @@ const Browsing = (props) => {
       </div>
 
       <div>
-        <h1 className="SearchResults"> Search Results</h1>
+        <Divider plain>
+          <h1 className="SearchResults">Search Results</h1>
+        </Divider>
       </div>
 
       <Drawer

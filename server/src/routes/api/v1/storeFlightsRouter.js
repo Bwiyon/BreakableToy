@@ -28,4 +28,14 @@ storeFlightsRouter.delete("/", async (req, res) => {
     return res.status(500).json({ errors: error });
   }
 });
+
+storeFlightsRouter.delete("/:id", async (req, res) => {
+  const id = req.body.id;
+  try {
+    await Flight.query().deleteById(id);
+    return res.status(200).json({ body });
+  } catch (error) {
+    return res.status(500).json({ errors: error });
+  }
+});
 export default storeFlightsRouter;
